@@ -20,5 +20,5 @@ module "accesspackage" {
     approver_upns = ["testadmin@4mm84s.onmicrosoft.com"]
     approver_groups = []
     duration = 1
-    resource_ids = []
+    resource_groups = ["Test Group"] /*["e30492f7-d901-43fd-9974-8df7a2c33b91"]*/
 }

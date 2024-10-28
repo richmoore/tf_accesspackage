@@ -1,5 +1,5 @@
 
-variable "resource_ids" {
+variable "resource_groups" {
     type = list(string)
 }
 
