@@ -8,13 +8,17 @@ data "azuread_group" "approver_groups" {
     display_name = each.value
 }
 
+data "azuread_access_package_catalog" "catalog" {
+    display_name = var.catalog_name
+}
+
 locals {
    approver_ids = [for user in data.azuread_user.approver_users : user.object_id] 
    approver_group_ids = [for group in data.azuread_group.approver_groups : group.object_id] 
 }
 
 resource "azuread_access_package" "access_package" {
-    catalog_id = var.catalog_id
+    catalog_id = data.azuread_access_package_catalog.catalog.id
     description = var.description
     display_name = var.name
     hidden = false

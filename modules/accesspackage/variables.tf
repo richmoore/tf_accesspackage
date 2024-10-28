@@ -3,7 +3,7 @@ variable "resource_ids" {
     type = list(string)
 }
 
-variable "catalog_id" {
+variable "catalog_name" {
     type = string
 }
 
