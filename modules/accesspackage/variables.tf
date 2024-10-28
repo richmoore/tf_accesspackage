@@ -19,6 +19,10 @@ variable "approver_upns" {
     type = list(string)
 }
 
+variable "approver_groups" {
+    type = list(string)
+}
+
 variable "duration" {
     type = number
 }

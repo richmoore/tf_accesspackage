@@ -18,6 +18,7 @@ module "accesspackage" {
     name = "Terraform Access Package"
     description = "This is a test access package"
     approver_upns = ["testadmin@4mm84s.onmicrosoft.com"]
+    approver_groups = []
     duration = 1
     resource_ids = []
 }

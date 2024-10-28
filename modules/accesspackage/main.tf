@@ -1,11 +1,16 @@
-data "azuread_user" "approvers" {
+data "azuread_user" "approver_users" {
     for_each = toset(var.approver_upns)
-
     user_principal_name = each.value
 }
 
+data "azuread_group" "approver_groups" {
+    for_each = toset(var.approver_groups)
+    display_name = each.value
+}
+
 locals {
-   approver_ids = [for user in data.azuread_user.approvers : user.object_id] 
+   approver_ids = [for user in data.azuread_user.approver_users : user.object_id] 
+   approver_group_ids = [for group in data.azuread_group.approver_groups : group.object_id] 
 }
 
 resource "azuread_access_package" "access_package" {
@@ -37,6 +42,16 @@ resource "azuread_access_package_assignment_policy" "access_package_policy" {
                     backup       = false
                     object_id    = primary_approver.value
                     subject_type = "SingleUser"
+                }
+            }
+
+            dynamic "primary_approver" {
+                for_each = local.approver_group_ids
+
+                content {
+                    backup       = false
+                    object_id    = primary_approver.value
+                    subject_type = "GroupMembers"
                 }
             }
         }
