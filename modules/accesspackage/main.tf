@@ -1,3 +1,12 @@
+data "azuread_user" "approvers" {
+    for_each = toset(var.approver_upns)
+
+    user_principal_name = each.value
+}
+
+locals {
+   approver_ids = [for user in data.azuread_user.approvers : user.object_id] 
+}
 
 resource "azuread_access_package" "access_package" {
     catalog_id = var.catalog_id
@@ -22,7 +31,7 @@ resource "azuread_access_package_assignment_policy" "access_package_policy" {
             enable_alternative_approval_in_days = 0
 
             dynamic "primary_approver" {
-                for_each = var.approver_ids
+                for_each = local.approver_ids
 
                 content {
                     backup       = false

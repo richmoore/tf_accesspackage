@@ -15,7 +15,7 @@ variable "description" {
     type = string
 }
 
-variable "approver_ids" {
+variable "approver_upns" {
     type = list(string)
 }
 
